@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
-#define N 16
+#include <time.h>
+#define N 4
 void startGame();
 void mainMenu();
 void instructions();
 void exitGame();
-
+void getTargets(int targets[3][2]);
+int inTargets(int targets[3][2], int choice);
 int main() {
 	printf("DotFleet");
 	mainMenu();
@@ -20,42 +22,36 @@ int main() {
 
 void startGame() {
 	int choice;
-	int arr1[N] = { 0 };
-	for (int i = 0; i < N; i++) {
-		arr1[i] = i;
-	}
+	int board[N][N] = {0};
+	int targets[3][2];
+	getTargets(targets);
 
-	char arr2[N] = {' '};
-	for (int i = 0; i < N; i++) {
-		arr2[i] = ' ';
-	}
-	int n1 = rand() % N;
-	int n2 = rand() % N;
-	while (n2 == n1) n2 = rand() % N;
-	int n3 = rand() % N;
-	while (n3 == n1 || n3 == n2) n3 = rand() % N;
-	arr2[n1] = arr2[n2] = arr2[n3] = 'X';
-	
 	int counter = 0;
 	int left = 3;
-	
+
 	while (1) {
-		
-		
-		for (int i = 0; i < N; i++) {
-			if (i % (int)sqrt(N) == 0) printf("\n");
-			if (arr1[i] != i) {
-				printf("%5c", arr2[i]);
-				continue;
+
+
+		for(int row = 0; row < N; row++){
+			printf("\n");
+			for (int colum = 0; colum < N; colum++) {
+				if (board[row][colum] == 0) printf("  %d,%d", row, colum);
+				if (board[row][colum] == 1) printf("     ");
+				if (board[row][colum] == 2) printf("    X");
 			}
-			printf("%5d", arr1[i]);
 		}
-		printf("\n\n GUESSES: %d    LEFT: %d \n\n", counter , left);
+		printf("\n\n GUESSES: %d    LEFT: %d \n\n", counter, left);
 
 		scanf("%d", &choice);
-		arr1[choice]++;
 		counter++;
-		if (arr2[choice] == 'X') left--;
+
+		if (inTargets(targets, choice)) {
+			left--;
+			board[choice / 10][choice % 10] = 2;
+		}else{
+			board[choice / 10][choice % 10] = 1;
+		}
+
 		if (!left) break;
 	}
 
@@ -67,7 +63,7 @@ void startGame() {
 	if (choice == 2) mainMenu();
 }
 
-void mainMenu(){
+void mainMenu() {
 	int choice = 0;
 
 	printf("\n\n1. START GAME \n");
@@ -78,14 +74,14 @@ void mainMenu(){
 	if (choice == 1) startGame();
 	if (choice == 2) instructions();
 	if (choice == 3) exitGame();
-	
+
 
 }
 
 void instructions() {
 
 	printf("\nGame Instructions:\n");
-	printf("The game board has %d cells numbered from 0 to %d.\n" , N , N - 1);
+	printf("The game board has %d cells numbered from 0 to %d.\n", N, N - 1);
 	printf("There are 3 hidden 'X' marks placed randomly on the board.\n");
 	printf("Your goal is to guess the positions of the 'X' marks by entering numbers.\n");
 	printf("If you guess correctly, the 'X' will be revealed at that position.\n");
@@ -101,9 +97,29 @@ void instructions() {
 		if (choice == 1) mainMenu();
 	}
 }
-	
+
 
 void exitGame() {
 	printf("\n GOODBYE! \n");
 	return;
 }
+
+void getTargets(int targets[3][2]) {
+	srand((unsigned int)time(NULL));
+	for (int i = 0; i < 3; i++) {
+		targets[i][0] = rand() % N;
+		targets[i][1] = rand() % N;
+	}
+}
+
+
+    int inTargets(int targets[3][2], int choice) {
+        int row = choice / 10;
+        int col = choice % 10;
+        for (int i = 0; i < 3; i++) {
+            if (targets[i][0] == row && targets[i][1] == col) {
+                return 1;
+            }
+        }
+        return 0;
+    }

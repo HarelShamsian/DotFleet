@@ -1,2 +1,42 @@
 # DotFleet
-DotFleet is a simple console-based Battleship-style game written in C++. The player guesses hidden ship locations on a square grid until all three ships are found. The game board is defined by #define N, which sets the number of cells. By default, N is set to 16, representing a 4x4 grid. You can easily change the board size by modifying this value in the code, just make sure that N is a perfect square (like 9, 16, 25, etc.) so the board displays correctly. Ships are placed randomly each game, and the player inputs numbers (0 to N-1) to try and find them. Hits reveal an 'X', while misses show an empty space. The game tracks the number of guesses and ends once all ships are found.
+
+**DotFleet** is a simple terminal-based guessing game written in C++ (C-style).
+
+## 🎮 How to Play
+
+- The game board is an `N x N` grid (default: `N = 4`).
+- 3 hidden targets (`X`) are randomly placed.
+- Enter a two-digit number to guess a cell (e.g., `23` = row 2, column 3).
+- The game ends when all targets are found.
+
+## ⚙️ Change Board Size
+
+Edit the following line in `main.cpp`:
+
+```cpp
+#define N 4
+```
+
+Recommended value: between **3 and 10**.
+
+## 🛠 Build & Run
+
+### On Linux / macOS / WSL:
+
+```bash
+g++ main.cpp -o dotfleet
+./dotfleet
+```
+
+### On Windows (CMD or PowerShell):
+
+```cmd
+g++ main.cpp -o dotfleet.exe
+dotfleet
+```
+
+> Requires `g++` (e.g., via MinGW or WSL).
+
+---
+
+Enjoy the game! 🎯

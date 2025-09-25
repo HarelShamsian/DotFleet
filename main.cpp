@@ -81,9 +81,9 @@ void mainMenu() {
 void instructions() {
 
 	printf("\nGame Instructions:\n");
-	printf("The game board has %d cells numbered from 0 to %d.\n", N, N - 1);
+	printf("The game board is an %d x %d grid.\n", N, N );
 	printf("There are 3 hidden 'X' marks placed randomly on the board.\n");
-	printf("Your goal is to guess the positions of the 'X' marks by entering numbers.\n");
+	printf("Enter a two-digit number to guess a cell (e.g., `23` = row 2, column 3).\n");
 	printf("If you guess correctly, the 'X' will be revealed at that position.\n");
 	printf("If you guess an empty cell, it will be marked as empty.\n");
 	printf("The game continues until all three 'X's are found.\n");
